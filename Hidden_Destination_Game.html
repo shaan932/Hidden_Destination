@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hidden Destination</title>
+<style>
+body{margin:0;background:#050816;color:white;font-family:Arial,sans-serif;overflow:hidden}
+.screen{display:none;height:100vh;justify-content:center;align-items:center;flex-direction:column;text-align:center;padding:20px}
+.active{display:flex}
+button{padding:12px 24px;border:none;border-radius:30px;font-size:18px;cursor:pointer}
+.starbg{position:fixed;inset:0;background-image:radial-gradient(white 1px,transparent 1px);background-size:40px 40px;opacity:.25}
+.star{font-size:30px;cursor:pointer;margin:10px}
+#heart{position:absolute;font-size:48px;cursor:pointer}
+.progress{width:250px;height:18px;border:1px solid #fff;border-radius:20px;overflow:hidden}
+.bar{height:100%;width:0%;background:white}
+</style>
+</head>
+<body>
+<div class="starbg"></div>
+
+<div id="s1" class="screen active">
+<h1>Hidden Destination</h1>
+<p>A strange signal has been detected...</p>
+<button onclick="show('s2')">Investigate</button>
+</div>
+
+<div id="s2" class="screen">
+<h2>Find The Signal</h2>
+<p>One star contains the signal.</p>
+<div id="stars"></div>
+</div>
+
+<div id="s3" class="screen">
+<h2>Collect Memory Fragments</h2>
+<p id="frag">0 / 4 Found</p>
+<button onclick="fragment(this)">✨ Fragment 1</button>
+<button onclick="fragment(this)">🌙 Fragment 2</button>
+<button onclick="fragment(this)">⭐ Fragment 3</button>
+<button onclick="fragment(this)">❤️ Fragment 4</button>
+</div>
+
+<div id="s4" class="screen">
+<h2>Catch Hearts</h2>
+<p><span id="hc">0</span>/5</p>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div id="heart">❤️</div>
+</div>
+
+<div id="s5" class="screen">
+<h2>Decode Destination</h2>
+<p>A _ S _ A</p>
+<button onclick="wrong()">Planet X</button>
+<button onclick="wrong()">Nebula-7</button>
+<button onclick="show('s6')">Aisha</button>
+</div>
+
+<div id="s6" class="screen">
+<h1>Destination Found ❤️</h1>
+<h2>Aisha</h2>
+<p>Out of billions of people...</p>
+<p>Every path led to you.</p>
+<p>— Shaan</p>
+</div>
+
+<script>
+function show(id){
+document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+if(id==='s2') makeStars();
+if(id==='s4') moveHeart();
+}
+function makeStars(){
+const box=document.getElementById('stars');
+if(box.innerHTML) return;
+for(let i=0;i<12;i++){
+ let s=document.createElement('span');
+ s.className='star';
+ s.textContent='⭐';
+ s.onclick=()=>alert('Signal not found');
+ box.appendChild(s);
+}
+let good=document.createElement('span');
+good.className='star';
+good.textContent='🌟';
+good.onclick=()=>show('s3');
+box.appendChild(good);
+}
+let f=0;
+function fragment(btn){
+btn.disabled=true;
+f++;
+frag.innerText=f+' / 4 Found';
+if(f===4) setTimeout(()=>show('s4'),700);
+}
+let hearts=0;
+function moveHeart(){
+heart.style.left=Math.random()*80+'vw';
+heart.style.top=Math.random()*70+'vh';
+}
+heart.onclick=()=>{
+hearts++;
+hc.innerText=hearts;
+bar.style.width=(hearts*20)+'%';
+if(hearts>=5){show('s5');}
+else moveHeart();
+}
+function wrong(){
+alert('Wrong destination 😅');
+}
+</script>
+</body>
+</html>
